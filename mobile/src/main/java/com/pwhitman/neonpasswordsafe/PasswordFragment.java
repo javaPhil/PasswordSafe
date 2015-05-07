@@ -1,11 +1,14 @@
 package com.pwhitman.neonpasswordsafe;
 
 
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
 import android.view.LayoutInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -16,6 +19,9 @@ import java.util.UUID;
 public class PasswordFragment extends Fragment {
 
     public static final String EXTRA_PASSWORD_ID = "com.pwhitman.neonpasswordsafe.password_id";
+
+    private static final int REQUEST_DATE = 0;
+
     private Password mPassword;
     private EditText mTitleField;
     private EditText mUsernameField;
@@ -32,7 +38,7 @@ public class PasswordFragment extends Fragment {
      *
      * @return A new instance of fragment PasswordFragment.
      */
-    // TODO: Rename and change types and number of parameters
+
     public static PasswordFragment newInstance(UUID passwordID) {
         PasswordFragment fragment = new PasswordFragment();
         Bundle args = new Bundle();
@@ -52,12 +58,32 @@ public class PasswordFragment extends Fragment {
             UUID passwordID = (UUID)getArguments().getSerializable(EXTRA_PASSWORD_ID);
             mPassword = PasswordStation.get(getActivity()).getPassword(passwordID);
         }
+        setHasOptionsMenu(true);
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch(item.getItemId()){
+            case android.R.id.home:
+                if(NavUtils.getParentActivityIntent(getActivity()) != null){
+                    NavUtils.navigateUpFromSameTask(getActivity());
+                }
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
     }
 
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_password, container, false);
+        if(Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB){
+            if(NavUtils.getParentActivityIntent(getActivity()) != null){
+                getActivity().getActionBar().setDisplayHomeAsUpEnabled(true);
+            }
+        }
+
         mTitleField = (EditText)v.findViewById(R.id.password_title);
         mTitleField.setText(mPassword.getTitle());
         mTitleField.addTextChangedListener(new TextWatcher() {
@@ -144,4 +170,9 @@ public class PasswordFragment extends Fragment {
         return v;
     }
 
+    @Override
+    public void onPause() {
+        super.onPause();
+        PasswordStation.get(getActivity()).savePasswords();
+    }
 }
