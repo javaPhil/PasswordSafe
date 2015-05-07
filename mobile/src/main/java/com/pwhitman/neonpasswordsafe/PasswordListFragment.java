@@ -6,12 +6,16 @@ import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.view.ActionMode;
+import android.view.ContextMenu;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AbsListView;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
@@ -35,6 +39,7 @@ public class PasswordListFragment extends ListFragment {
 
         PasswordAdapter adapter = new PasswordAdapter(mPasswords);
         setListAdapter(adapter);
+
         setRetainInstance(true);
     }
 
@@ -44,12 +49,94 @@ public class PasswordListFragment extends ListFragment {
         ((PasswordAdapter)getListAdapter()).notifyDataSetChanged();
     }
 
+    public void updateUI(){
+        ((PasswordAdapter)getListAdapter()).notifyDataSetChanged();
+    }
+
+    @TargetApi(11)
+    @Override
+    public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
+        View v = super.onCreateView(inflater, container, savedInstanceState);
+
+        ListView listView = (ListView)v.findViewById(android.R.id.list);
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
+            //Use floating context menus on Froyo and Gingerbread
+            registerForContextMenu(listView);
+        }else{
+            //Use contextual action bar on Honeycomb and higher
+            listView.setChoiceMode(ListView.CHOICE_MODE_MULTIPLE_MODAL);
+            listView.setMultiChoiceModeListener(new AbsListView.MultiChoiceModeListener() {
+                @Override
+                public void onItemCheckedStateChanged(ActionMode actionMode, int i, long l, boolean b) {
+                    //Required, but not used in this implementation
+                }
+
+                @Override
+                public boolean onCreateActionMode(ActionMode actionMode, Menu menu) {
+                    MenuInflater inflater = actionMode.getMenuInflater();
+                    inflater.inflate(R.menu.password_list_item_context, menu);
+                    return true;
+                }
+
+                @Override
+                public boolean onPrepareActionMode(ActionMode actionMode, Menu menu) {
+                    return false;
+                    //Required but not used for this implementation
+                }
+
+                @Override
+                public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
+                    switch(menuItem.getItemId()){
+                        case R.id.menu_item_delete_password:
+                            PasswordAdapter adapter = (PasswordAdapter)getListAdapter();
+                            PasswordStation passStation = PasswordStation.get(getActivity());
+                            for(int i = adapter.getCount() - 1; i >= 0; i--){
+                                if(getListView().isItemChecked(i)){
+                                    passStation.deletePassword(adapter.getItem(i));
+                                }
+                            }
+                            actionMode.finish();
+                            adapter.notifyDataSetChanged();
+                            return true;
+                        default:
+                            return false;
+                    }
+                }
+
+                @Override
+                public void onDestroyActionMode(ActionMode actionMode) {
+                    //Required but not used for this implementation
+                }
+            });
+        }
+
+        return v;
+    }
+
+    @Override
+    public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
+        getActivity().getMenuInflater().inflate(R.menu.password_list_item_context, menu);
+    }
+
+    @Override
+    public boolean onContextItemSelected(MenuItem item) {
+        AdapterView.AdapterContextMenuInfo info = (AdapterView.AdapterContextMenuInfo)item.getMenuInfo();
+        int position = info.position;
+        PasswordAdapter adapter = (PasswordAdapter)getListAdapter();
+        Password pass = adapter.getItem(position);
+        switch(item.getItemId()){
+            case R.id.menu_item_delete_password:
+                PasswordStation.get(getActivity()).deletePassword(pass);
+                adapter.notifyDataSetChanged();
+                return true;
+        }
+        return super.onContextItemSelected(item);
+    }
+
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Password p = ((PasswordAdapter)getListAdapter()).getItem(position);
-        //Log.d(TAG, c.getTitle() + " was clicked");
 
-        //Intent i = new Intent(getActivity(), CrimeActivity.class);
         Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
         i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, p.getId());
         startActivity(i);
@@ -69,6 +156,7 @@ public class PasswordListFragment extends ListFragment {
                 Password pass = new Password();
                 PasswordStation.get(getActivity()).addPassword(pass);
                 Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
+                i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, pass.getId());
                 startActivityForResult(i, 0);
                 return true;
             default:

@@ -36,7 +36,9 @@ public class Password {
             mTitle = json.getString(JSON_TITLE);
         }
         mCreationDate = new Date(json.getLong(JSON_DATE));
-        mPass = json.getString(JSON_PASS);
+        if(json.has(mPass)) {
+            mPass = json.getString(JSON_PASS);
+        }
         if(json.has(JSON_NOTES)){
             mNotes = json.getString(JSON_NOTES);
         }

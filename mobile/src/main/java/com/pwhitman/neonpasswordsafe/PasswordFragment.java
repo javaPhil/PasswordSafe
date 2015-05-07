@@ -54,10 +54,8 @@ public class PasswordFragment extends Fragment {
     @Override
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        if (getArguments() != null) {
-            UUID passwordID = (UUID)getArguments().getSerializable(EXTRA_PASSWORD_ID);
-            mPassword = PasswordStation.get(getActivity()).getPassword(passwordID);
-        }
+        UUID passId = (UUID)getArguments().getSerializable(EXTRA_PASSWORD_ID);
+        mPassword = PasswordStation.get(getActivity()).getPassword(passId);
         setHasOptionsMenu(true);
     }
 
