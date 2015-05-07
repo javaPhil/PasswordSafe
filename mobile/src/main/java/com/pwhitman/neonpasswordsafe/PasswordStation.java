@@ -1,6 +1,7 @@
 package com.pwhitman.neonpasswordsafe;
 
 import android.content.Context;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.UUID;
@@ -10,20 +11,43 @@ import java.util.UUID;
  */
 public class PasswordStation {
 
+    private static final String TAG = "PasswordStation";
+    private static final String FILENAME = "passwords.json";
+
+    private PasswordJSONSerializer mSerializer;
+
     private static PasswordStation sPasswordStation;
     private Context mAppContext;
     private ArrayList<Password> mPasswords;
 
     private PasswordStation(Context appContext){
+
         mAppContext = appContext;
-        mPasswords = new ArrayList<Password>();
-        for (int i = 0; i < 100; i++){
-            Password p = new Password();
-            p.setTitle("Password # " + i);
-            //TODO fix this method
-            mPasswords.add(p);
+        mSerializer = new PasswordJSONSerializer(mAppContext, FILENAME);
+        try{
+            mPasswords = mSerializer.loadPasswords();
+        }catch(Exception e){
+            Log.e(TAG, "Error loading passwords: ", e);
         }
     }
+
+    public void addPassword(Password p){
+        mPasswords.add(p);
+    }
+    public void deletePassword(Password p){
+        mPasswords.remove(p);
+    }
+    public boolean savePasswords(){
+        try{
+            mSerializer.savePasswords(mPasswords);
+            return true;
+        }catch(Exception e){
+            Log.e(TAG, "Error saving passwords: ",e);
+            return false;
+        }
+    }
+
+
 
     public static PasswordStation get(Context c){
         if(sPasswordStation == null){

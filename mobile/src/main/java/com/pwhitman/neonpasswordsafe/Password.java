@@ -1,5 +1,8 @@
 package com.pwhitman.neonpasswordsafe;
 
+import org.json.JSONException;
+import org.json.JSONObject;
+
 import java.util.Date;
 import java.util.UUID;
 
@@ -15,9 +18,42 @@ public class Password {
     private String mNotes;
     private String mUsername;
 
+    private static final String JSON_TITLE = "title";
+    private static final String JSON_DATE = "date";
+    private static final String JSON_PASS = "pass";
+    private static final String JSON_ID = "id";
+    private static final String JSON_NOTES = "notes";
+    private static final String JSON_USERNAME = "userName";
+
     public Password(){
         mId = UUID.randomUUID();
         mCreationDate = new Date();
+    }
+
+    public Password(JSONObject json)throws JSONException{
+        mId = UUID.fromString(json.getString(JSON_ID));
+        if(json.has(JSON_TITLE)){
+            mTitle = json.getString(JSON_TITLE);
+        }
+        mCreationDate = new Date(json.getLong(JSON_DATE));
+        mPass = json.getString(JSON_PASS);
+        if(json.has(JSON_NOTES)){
+            mNotes = json.getString(JSON_NOTES);
+        }
+        if(json.has(JSON_USERNAME)){
+            mUsername = json.getString(JSON_USERNAME);
+        }
+    }
+
+    public JSONObject toJSON() throws JSONException{
+        JSONObject json = new JSONObject();
+        json.put(JSON_ID, mId.toString());
+        json.put(JSON_TITLE, mTitle);
+        json.put(JSON_DATE, mCreationDate.getTime());
+        json.put(JSON_PASS, mPass);
+        json.put(JSON_NOTES, mNotes);
+        json.put(JSON_USERNAME, mUsername);
+        return json;
     }
 
     public String getNotes() {
