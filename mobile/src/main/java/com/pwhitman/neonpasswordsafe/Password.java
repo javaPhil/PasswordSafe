@@ -1,5 +1,7 @@
 package com.pwhitman.neonpasswordsafe;
 
+import android.util.Log;
+
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -17,6 +19,7 @@ public class Password {
     private UUID mId;
     private String mNotes;
     private String mUsername;
+    private PasswordUtility mPassUtil;
 
     private static final String JSON_TITLE = "title";
     private static final String JSON_DATE = "date";
@@ -26,17 +29,21 @@ public class Password {
     private static final String JSON_USERNAME = "userName";
 
     public Password(){
-        mId = UUID.randomUUID();
+        if(mId == null) mId = UUID.randomUUID();
+
         mCreationDate = new Date();
+        if (mPassUtil == null) mPassUtil = PasswordUtility.getInstance(mId);
+        Log.i("CRAP DEFAULT", "UUID: " + mId);
     }
 
     public Password(JSONObject json)throws JSONException{
         mId = UUID.fromString(json.getString(JSON_ID));
+
         if(json.has(JSON_TITLE)){
             mTitle = json.getString(JSON_TITLE);
         }
         mCreationDate = new Date(json.getLong(JSON_DATE));
-        if(json.has(mPass)) {
+        if(json.has(JSON_PASS)) {
             mPass = json.getString(JSON_PASS);
         }
         if(json.has(JSON_NOTES)){
@@ -45,6 +52,8 @@ public class Password {
         if(json.has(JSON_USERNAME)){
             mUsername = json.getString(JSON_USERNAME);
         }
+        mPassUtil = PasswordUtility.getInstance(mId);
+//        Log.i("CRAP JSON", "UUID: " + mId);
     }
 
     public JSONObject toJSON() throws JSONException{
@@ -92,10 +101,13 @@ public class Password {
 
     public String getPass() {
         return mPass;
+
     }
 
     public void setPass(String pass) {
-        mPass = pass;
+        //mPass = pass;
+        if(pass == null || pass.trim().isEmpty()) return;
+        mPass = mPassUtil.encryptString(pass);
     }
 
     public UUID getId() {
@@ -107,4 +119,7 @@ public class Password {
     }
 
 
+    public PasswordUtility getmPassUtil() {
+        return mPassUtil;
+    }
 }

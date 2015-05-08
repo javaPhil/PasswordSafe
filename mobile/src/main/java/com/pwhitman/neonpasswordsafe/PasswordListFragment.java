@@ -46,7 +46,7 @@ public class PasswordListFragment extends ListFragment {
     @Override
     public void onResume() {
         super.onResume();
-        ((PasswordAdapter)getListAdapter()).notifyDataSetChanged();
+        updateUI();
     }
 
     public void updateUI(){

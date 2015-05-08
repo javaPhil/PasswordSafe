@@ -1,12 +1,16 @@
 package com.pwhitman.neonpasswordsafe;
 
 
+import android.app.AlertDialog;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.TextWatcher;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
@@ -19,6 +23,7 @@ import java.util.UUID;
 public class PasswordFragment extends Fragment {
 
     public static final String EXTRA_PASSWORD_ID = "com.pwhitman.neonpasswordsafe.password_id";
+    private static final String TAG = "PasswordFragment";
 
     private static final int REQUEST_DATE = 0;
 
@@ -119,8 +124,16 @@ public class PasswordFragment extends Fragment {
 
             }
         });
+
+
+
         mPasswordField = (EditText)v.findViewById(R.id.password_pass);
-        mPasswordField.setText(mPassword.getPass());
+        if(mPassword.getPass() == null || mPassword.getPass().trim().isEmpty()){
+            mPasswordField.setText("");
+        }else{
+            mPasswordField.setText(mPassword.getmPassUtil().decryptString(mPassword.getPass()));
+        }
+
         mPasswordField.addTextChangedListener(new TextWatcher() {
             @Override
             public void beforeTextChanged(CharSequence s, int start, int count, int after) {
@@ -130,6 +143,7 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mPassword.setPass(s.toString());
+                //Log.i(TAG, "onTextChanged PasswordField: " + mPassword.getPass());
             }
 
             @Override
@@ -137,8 +151,39 @@ public class PasswordFragment extends Fragment {
 
             }
         });
+
         mGeneratePassBtn = (Button)v.findViewById(R.id.password_generate_btn);
+        mGeneratePassBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.alert_change_password_title);
+                builder.setMessage(R.string.alert_change_password_message);
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+
+                        String newRandom = PasswordUtility.generateRandomString();
+                        mPassword.setPass(newRandom);
+                        mPasswordField.setText(mPassword.getmPassUtil().decryptString(mPassword.getPass()));
+
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing and go back
+                    }
+                });
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            }
+        });
         mGeneratePassBtn.setEnabled(true);
+
 
         mNotes = (EditText)v.findViewById(R.id.password_notes);
         mNotes.setText(mPassword.getNotes());
@@ -160,9 +205,47 @@ public class PasswordFragment extends Fragment {
         });
 
         mDeleteBtn = (Button)v.findViewById(R.id.password_delete_btn);
+        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                //PasswordStation.get(getActivity()).deletePassword(mPassword);
+
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.alert_delete_title);
+                builder.setMessage(R.string.alert_delete_message);
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PasswordStation.get(getActivity()).deletePassword(mPassword);
+                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing and go back
+                    }
+                });
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+                AlertDialog alert = builder.create();
+                alert.show();
+
+            }
+        });
         mDeleteBtn.setEnabled(true);
 
         mSaveBtn = (Button)v.findViewById(R.id.password_save_btn);
+        mSaveBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                //intent.putExtra(EXTRA_PASSWORD_ID, 0);
+                startActivity(intent);
+            }
+        });
         mSaveBtn.setEnabled(true);
 
         return v;
