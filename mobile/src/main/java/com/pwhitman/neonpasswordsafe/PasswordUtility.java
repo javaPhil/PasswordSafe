@@ -30,7 +30,7 @@ public class PasswordUtility {
     private static final SecureRandom random = new SecureRandom();
     private static SecretKeySpec sks = null;
 
-    private PasswordUtility(UUID uuid){
+    private PasswordUtility(){
         try{
 
             byte[] key = KEY.getBytes("UTF-8");
@@ -43,54 +43,18 @@ public class PasswordUtility {
         }
     }
 
-    public static PasswordUtility getInstance(UUID uuid){
-        return new PasswordUtility(uuid);
+    public static PasswordUtility getInstance(){
+        return new PasswordUtility();
     }
 
     public static String generateRandomString(){
         return new BigInteger(60, random).toString(32);
     }
 
-//    public AlgorithmParameterSpec getIV()
-//    {
-//        //byte[] iv = {0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, 0, };
-//        final int blockSize = cipher.getBlockSize();
-//        final byte[] ivData = new byte[blockSize];
-//        random.nextBytes(ivData);
-//
-//
-//        IvParameterSpec ivParameterSpec;
-//        ivParameterSpec = new IvParameterSpec(ivData);
-//
-//        return ivParameterSpec;
-//    }
-
-
-//    public String encrypt(String plainText) throws Exception
-//    {
-//        if (cipher == null) return null;
-//        cipher.init(Cipher.ENCRYPT_MODE, sks, spec);
-//        byte[] encrypted = cipher.doFinal(plainText.getBytes("UTF-8"));
-//        String encryptedText = new String(Base64.encode(encrypted, Base64.DEFAULT), "UTF-8");
-//
-//        return encryptedText;
-//    }
-//
-//    public String decrypt(String cryptedText) throws Exception
-//    {
-//        if (cipher == null) return null;
-//        cipher.init(Cipher.DECRYPT_MODE, sks, spec);
-//        byte[] bytes = Base64.decode(cryptedText, Base64.DEFAULT);
-//        byte[] decrypted = cipher.doFinal(bytes);
-//        String decryptedText = new String(decrypted, "UTF-8");
-//
-//        return decryptedText;
-//    }
-//
     public String encryptString(String input){
         if(input == null  ||  input.isEmpty()) return null;
 
-        Log.i(TAG, "inputString: " + input);
+//        Log.i(TAG, "inputString: " + input);
 
         byte[] encodedBytes = null;
         try{
@@ -105,7 +69,7 @@ public class PasswordUtility {
 
     public String decryptString(String inputString){
         if(inputString == null || inputString.trim().isEmpty()) return null;
-        Log.i(TAG, "decryptString: " + inputString);
+//        Log.i(TAG, "decryptString: " + inputString);
         byte[] decodedBytes = null;
         try{
             if(sks != null){
@@ -120,13 +84,6 @@ public class PasswordUtility {
             Log.e(TAG, "AES decryption error: ",e);
         }
         return decodedBytes != null ? new String(decodedBytes) : "";
-    }
-
-    public byte[] asBytes(UUID uuid){
-        ByteBuffer bb = ByteBuffer.wrap(new byte[16]);
-        bb.putLong(uuid.getMostSignificantBits());
-
-        return bb.array();
     }
 
 }

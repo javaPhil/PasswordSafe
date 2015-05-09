@@ -30,10 +30,8 @@ public class Password {
 
     public Password(){
         if(mId == null) mId = UUID.randomUUID();
-
         mCreationDate = new Date();
-        if (mPassUtil == null) mPassUtil = PasswordUtility.getInstance(mId);
-        Log.i("CRAP DEFAULT", "UUID: " + mId);
+        if (mPassUtil == null) mPassUtil = PasswordUtility.getInstance();
     }
 
     public Password(JSONObject json)throws JSONException{
@@ -52,8 +50,7 @@ public class Password {
         if(json.has(JSON_USERNAME)){
             mUsername = json.getString(JSON_USERNAME);
         }
-        mPassUtil = PasswordUtility.getInstance(mId);
-//        Log.i("CRAP JSON", "UUID: " + mId);
+        mPassUtil = PasswordUtility.getInstance();
     }
 
     public JSONObject toJSON() throws JSONException{

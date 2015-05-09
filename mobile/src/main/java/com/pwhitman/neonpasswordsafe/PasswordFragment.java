@@ -19,6 +19,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.Toast;
 
 import java.util.UUID;
 
@@ -208,6 +209,8 @@ public class PasswordFragment extends Fragment {
                     android.content.ClipData clip = android.content.ClipData.newPlainText("text label", mPassword.getmPassUtil().decryptString(mPassword.getPass()));
                     clipboard.setPrimaryClip(clip);
                 }
+                Toast.makeText(getActivity(),R.string.toast_password_copied, Toast.LENGTH_LONG).show();
+
             }
         });
 
@@ -257,6 +260,7 @@ public class PasswordFragment extends Fragment {
                 builder.setIcon(android.R.drawable.ic_dialog_alert);
                 AlertDialog alert = builder.create();
                 alert.show();
+                Toast.makeText(getActivity(),R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
 
             }
         });
@@ -270,6 +274,7 @@ public class PasswordFragment extends Fragment {
                 intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 //intent.putExtra(EXTRA_PASSWORD_ID, 0);
                 startActivity(intent);
+                Toast.makeText(getActivity(),R.string.toast_password_saved, Toast.LENGTH_LONG).show();
             }
         });
         mSaveBtn.setEnabled(true);

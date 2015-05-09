@@ -22,4 +22,7 @@
     <string name="alert_change_password_title">Generate Password</string>
     <string name="alert_change_password_message">Generate Password?</string>
     <string name="copy_btn">Copy to Clipboard</string>
+    <string name="toast_password_copied">Password Copied</string>
+    <string name="toast_password_saved">Password Saved</string>
+    <string name="toast_password_deleted">Password Deleted</string>
 </resources>
