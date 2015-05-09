@@ -1,7 +1,9 @@
 package com.pwhitman.neonpasswordsafe;
 
 
+import android.annotation.TargetApi;
 import android.app.AlertDialog;
+import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Build;
@@ -35,6 +37,7 @@ public class PasswordFragment extends Fragment {
     private Button mGeneratePassBtn;
     private Button mDeleteBtn;
     private Button mSaveBtn;
+    private Button mCopyBtn;
 
 
     /**
@@ -143,7 +146,8 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onTextChanged(CharSequence s, int start, int before, int count) {
                 mPassword.setPass(s.toString());
-                //Log.i(TAG, "onTextChanged PasswordField: " + mPassword.getPass());
+                if(s.toString().trim().isEmpty()) mPassword.setPass("");
+
             }
 
             @Override
@@ -184,6 +188,28 @@ public class PasswordFragment extends Fragment {
         });
         mGeneratePassBtn.setEnabled(true);
 
+        mCopyBtn = (Button)v.findViewById(R.id.password_copy_brn);
+        mCopyBtn.setEnabled(true);
+//        if(mPassword.getPass() != null && !mPassword.getPass().isEmpty()){
+//            mCopyBtn.setEnabled(true);
+//        }else{
+//            mCopyBtn.setEnabled(false);
+//        }
+        mCopyBtn.setOnClickListener(new View.OnClickListener() {
+            @SuppressWarnings("deprecation")
+            @TargetApi(11)
+            @Override
+            public void onClick(View v) {
+                if(Build.VERSION.SDK_INT <= Build.VERSION_CODES.HONEYCOMB){
+                    android.text.ClipboardManager clipboard = (android.text.ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    clipboard.setText(mPassword.getmPassUtil().decryptString(mPassword.getPass()));
+                }else{
+                    android.content.ClipboardManager clipboard = (android.content.ClipboardManager)getActivity().getSystemService(Context.CLIPBOARD_SERVICE);
+                    android.content.ClipData clip = android.content.ClipData.newPlainText("text label", mPassword.getmPassUtil().decryptString(mPassword.getPass()));
+                    clipboard.setPrimaryClip(clip);
+                }
+            }
+        });
 
         mNotes = (EditText)v.findViewById(R.id.password_notes);
         mNotes.setText(mPassword.getNotes());

@@ -89,7 +89,7 @@ public class PasswordUtility {
 //
     public String encryptString(String input){
         if(input == null  ||  input.isEmpty()) return null;
-//        Log.i(TAG, "sks: " + sks.toString());
+
         Log.i(TAG, "inputString: " + input);
 
         byte[] encodedBytes = null;
