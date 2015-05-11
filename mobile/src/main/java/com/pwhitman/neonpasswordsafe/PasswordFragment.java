@@ -6,6 +6,7 @@ import android.app.AlertDialog;
 import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,15 +15,18 @@ import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
+import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
+import java.net.HttpURLConnection;
 import java.util.UUID;
 
 public class PasswordFragment extends Fragment {
@@ -35,6 +39,8 @@ public class PasswordFragment extends Fragment {
     private Password mPassword;
     private EditText mTitleField;
     private EditText mUsernameField;
+    private EditText mWebsiteField;
+    private ImageButton mGoToWebsiteBtn;
     private EditText mPasswordField;
     private EditText mNotes;
     private Button mGeneratePassBtn;
@@ -132,7 +138,46 @@ public class PasswordFragment extends Fragment {
             }
         });
 
+        mWebsiteField = (EditText)v.findViewById(R.id.password_website_editText);
+        mWebsiteField.setText(mPassword.getmWebsite());
+        mWebsiteField.addTextChangedListener(new TextWatcher() {
+            @Override
+            public void beforeTextChanged(CharSequence s, int start, int count, int after) {
 
+            }
+
+            @Override
+            public void onTextChanged(CharSequence s, int start, int before, int count) {
+                mPassword.setmWebsite(s.toString());
+            }
+
+            @Override
+            public void afterTextChanged(Editable s) {
+
+            }
+        });
+        mGoToWebsiteBtn = (ImageButton)v.findViewById(R.id.password_website_gotoBtn);
+        mGoToWebsiteBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String url = mPassword.getmWebsite();
+                if(url != null && !url.trim().isEmpty()) {
+                    if (!url.startsWith("https://") && !url.startsWith("http://")) {
+                        url = "http://" + url;
+                    }
+                    if(Patterns.WEB_URL.matcher(url).matches()){
+                        Intent i = new Intent(Intent.ACTION_VIEW);
+                        i.setData(Uri.parse(url));
+                        startActivity(i);
+                    }else{
+                        Toast.makeText(getActivity(), "The URL is invalid please make sure the website is entered correctly", Toast.LENGTH_LONG).show();
+                    }
+
+                }else{
+                    Toast.makeText(getActivity(), "Please enter a website and try again", Toast.LENGTH_LONG).show();
+                }
+            }
+        });
 
         mPasswordField = (EditText)v.findViewById(R.id.password_pass);
         mPasswordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
@@ -166,7 +211,7 @@ public class PasswordFragment extends Fragment {
             @Override
             public void onClick(View v) {
                 int inputType = mPasswordField.getInputType();
-                Log.i("INPUT TYPE: ",  Integer.toString(inputType));
+
                 if(inputType == InputType.TYPE_CLASS_TEXT + InputType.TYPE_TEXT_VARIATION_PASSWORD){
                     mPasswordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
                 }else{

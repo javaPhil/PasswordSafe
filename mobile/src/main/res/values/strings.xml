@@ -3,12 +3,11 @@
 
     <string name="app_name">PasswordSafe</string>
     <string name="password_list_title">Password Safe</string>
-    <string name="password_title">Password Title</string>
+    <string name="password_title">Title</string>
     <string name="password_text">Password</string>
     <string name="password_creation_date">Creation Date</string>
     <string name="password_username">Username</string>
     <string name="password_notes">Notes</string>
-    <string name="hello_blank_fragment">Hello blank fragment</string>
     <string name="password_title_hint">Enter a Title</string>
     <string name="password_username_hint">Enter a Username</string>
     <string name="password_hint">Enter a Password</string>
@@ -25,4 +24,6 @@
     <string name="toast_password_copied">Password Copied</string>
     <string name="toast_password_saved">Password Saved</string>
     <string name="toast_password_deleted">Password Deleted</string>
+    <string name="password_website">Website</string>
+    <string name="password_website_hint">e.g. www.google.com</string>
 </resources>

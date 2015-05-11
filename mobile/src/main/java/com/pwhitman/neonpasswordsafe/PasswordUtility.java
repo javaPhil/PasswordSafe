@@ -3,7 +3,9 @@ package com.pwhitman.neonpasswordsafe;
 import android.util.Base64;
 import android.util.Log;
 
+import java.io.InputStream;
 import java.math.BigInteger;
+import java.net.URL;
 import java.nio.ByteBuffer;
 import java.security.Key;
 import java.security.KeyPair;
@@ -68,7 +70,7 @@ public class PasswordUtility {
     }
 
     public String decryptString(String inputString){
-        if(inputString == null || inputString.trim().isEmpty()) return null;
+        if(inputString == null || inputString.trim().isEmpty()) return "";
 //        Log.i(TAG, "decryptString: " + inputString);
         byte[] decodedBytes = null;
         try{
@@ -85,5 +87,6 @@ public class PasswordUtility {
         }
         return decodedBytes != null ? new String(decodedBytes) : "";
     }
+
 
 }
