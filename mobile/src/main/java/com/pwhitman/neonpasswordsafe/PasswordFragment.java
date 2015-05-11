@@ -11,6 +11,7 @@ import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.text.Editable;
+import android.text.InputType;
 import android.text.TextWatcher;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +20,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ImageButton;
 import android.widget.Toast;
 
 import java.util.UUID;
@@ -39,6 +41,7 @@ public class PasswordFragment extends Fragment {
     private Button mDeleteBtn;
     private Button mSaveBtn;
     private Button mCopyBtn;
+    private ImageButton mShowHideBtn;
 
 
     /**
@@ -132,6 +135,7 @@ public class PasswordFragment extends Fragment {
 
 
         mPasswordField = (EditText)v.findViewById(R.id.password_pass);
+        mPasswordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
         if(mPassword.getPass() == null || mPassword.getPass().trim().isEmpty()){
             mPasswordField.setText("");
         }else{
@@ -154,6 +158,20 @@ public class PasswordFragment extends Fragment {
             @Override
             public void afterTextChanged(Editable s) {
 
+            }
+        });
+
+        mShowHideBtn = (ImageButton)v.findViewById(R.id.show_hide_btn);
+        mShowHideBtn.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                int inputType = mPasswordField.getInputType();
+                Log.i("INPUT TYPE: ",  Integer.toString(inputType));
+                if(inputType == InputType.TYPE_CLASS_TEXT + InputType.TYPE_TEXT_VARIATION_PASSWORD){
+                    mPasswordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_VISIBLE_PASSWORD);
+                }else{
+                    mPasswordField.setInputType(InputType.TYPE_CLASS_TEXT | InputType.TYPE_TEXT_VARIATION_PASSWORD);
+                }
             }
         });
 
@@ -249,6 +267,7 @@ public class PasswordFragment extends Fragment {
                         Intent intent = new Intent(getActivity(), PasswordListActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                         startActivity(intent);
+                        Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
                     }
                 });
                 builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
@@ -260,7 +279,7 @@ public class PasswordFragment extends Fragment {
                 builder.setIcon(android.R.drawable.ic_dialog_alert);
                 AlertDialog alert = builder.create();
                 alert.show();
-                Toast.makeText(getActivity(),R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
+
 
             }
         });
