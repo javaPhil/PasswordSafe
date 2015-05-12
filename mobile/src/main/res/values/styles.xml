@@ -28,7 +28,7 @@
     <style name="ButtonDark" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:textColor">@color/ColorLightText</item>
         <item name="android:typeface">sans</item>
-        <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:background">@drawable/button_border</item>
         <item name="android:padding">8dp</item>
     </style>
     <style name="ListItem">

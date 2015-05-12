@@ -26,4 +26,9 @@
     <string name="toast_password_deleted">Password Deleted</string>
     <string name="password_website">Website</string>
     <string name="password_website_hint">www.google.com</string>
+    <string name="options_title">Options</string>
+    <string name="options_sort_alpha">Sort Alpha</string>
+    <string name="options_sort_date">Sort by Date</string>
+    <string name="options_preferences">Preferences</string>
+    <string name="options_exit">Exit</string>
 </resources>

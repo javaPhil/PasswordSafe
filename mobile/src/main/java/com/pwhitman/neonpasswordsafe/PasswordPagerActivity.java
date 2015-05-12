@@ -53,6 +53,8 @@ public class PasswordPagerActivity extends FragmentActivity{
                 Password p = mPasswords.get(i);
                 if(p.getTitle() != null){
                     setTitle(p.getTitle());
+                }else{
+                    setTitle(R.string.new_password);
                 }
             }
 
