@@ -20,7 +20,9 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 
 /**
  * Created by Philip on 1/4/2015.
@@ -182,7 +184,9 @@ public class PasswordListFragment extends ListFragment {
             titleTextView.setText(p.getTitle());
 
             TextView dateTextView = (TextView)convertView.findViewById((R.id.password_list_item_creationDateTextView));
-            dateTextView.setText(p.getCreationDate().toString());
+            SimpleDateFormat format = new SimpleDateFormat("MM-dd-yyyy");
+            String newDate = format.format(p.getCreationDate());
+            dateTextView.setText(newDate);
 
             return convertView;
         }

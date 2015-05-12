@@ -6,8 +6,25 @@
         <item name="android:buttonStyle">@style/ButtonDark</item>
         <item name="android:actionBarStyle">@style/ActionBar</item>
         <item name="actionBarStyle">@style/ActionBar</item>
+
     </style>
 
+    <style name="EditText">
+        <item name="android:textColor">@color/ColorPrimaryDark</item>
+    </style>
+    <style name="Divider">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">1dp</item>
+        <item name="android:background">?android:attr/listDivider</item>
+    </style>
+    <style name="DetailHeadings">
+        <item name="android:textColor">@color/ColorDarkText</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:gravity">center_vertical</item>
+        <item name="android:paddingBottom">6dp</item>
+        <item name="android:paddingTop">6dp</item>
+        <item name="android:paddingLeft">6dp</item>
+    </style>
     <style name="ButtonDark" parent="android:Theme.Holo.Light.DarkActionBar">
         <item name="android:textColor">@color/ColorLightText</item>
         <item name="android:typeface">sans</item>
@@ -16,15 +33,18 @@
     </style>
     <style name="ListItem">
         <item name="android:textColor">@color/ColorPrimary</item>
-        <item name="android:textStyle">bold</item>
-        <item name="android:textSize">20dp</item>
     </style>
     <style name="ListItem.Heading">
         <item name="android:textSize">25dp</item>
     </style>
+    <style name="ListItem.Subtext">
+        <item name="android:textSize">15dp</item>
+        <item name="android:opacity">opaque</item>
+    </style>
     <style name="ActionBar" parent="@android:style/Widget.Holo.Light.ActionBar.Solid.Inverse">
         <item name="android:textColor">@color/ColorLightText</item>
         <item name="android:background">@color/ColorPrimary</item>
+        <item name="android:icon">@android:color/transparent</item>
     </style>
     <style name="DarkBackground">
         <item name="android:background">@color/ColorPrimary</item>

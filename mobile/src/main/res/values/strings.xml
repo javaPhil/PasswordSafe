@@ -11,19 +11,19 @@
     <string name="password_title_hint">Enter a Title</string>
     <string name="password_username_hint">Enter a Username</string>
     <string name="password_hint">Enter a Password</string>
-    <string name="password_notes_hint">*Optional Enter notes</string>
+    <string name="password_notes_hint">Enter notes</string>
     <string name="password_generate">Generate Password</string>
     <string name="save_btn">Save</string>
     <string name="new_password">New Password</string>
     <string name="delete_password">Delete Password</string>
     <string name="alert_delete_title">Delete Password</string>
     <string name="alert_delete_message">Are you sure you want to delete this Password?</string>
-    <string name="alert_change_password_title">Generate Password</string>
+    <string name="alert_change_password_title">Random Password</string>
     <string name="alert_change_password_message">Generate Password?</string>
     <string name="copy_btn">Copy to Clipboard</string>
     <string name="toast_password_copied">Password Copied</string>
     <string name="toast_password_saved">Password Saved</string>
     <string name="toast_password_deleted">Password Deleted</string>
     <string name="password_website">Website</string>
-    <string name="password_website_hint">e.g. www.google.com</string>
+    <string name="password_website_hint">www.google.com</string>
 </resources>
