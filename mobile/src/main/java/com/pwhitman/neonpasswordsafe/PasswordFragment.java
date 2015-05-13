@@ -17,9 +17,12 @@ import android.text.TextWatcher;
 import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.inputmethod.EditorInfo;
 import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
@@ -44,7 +47,7 @@ public class PasswordFragment extends Fragment {
     private EditText mPasswordField;
     private EditText mNotes;
     private Button mGeneratePassBtn;
-    private Button mDeleteBtn;
+//    private Button mDeleteBtn;
     private Button mSaveBtn;
     private Button mCopyBtn;
     private ImageButton mShowHideBtn;
@@ -78,13 +81,67 @@ public class PasswordFragment extends Fragment {
     }
 
     @Override
+    public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
+        super.onCreateOptionsMenu(menu, inflater);
+        inflater.inflate(R.menu.fragment_password, menu);
+    }
+
+    @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
             case android.R.id.home:
-                if(NavUtils.getParentActivityIntent(getActivity()) != null){
-                    NavUtils.navigateUpFromSameTask(getActivity());
+                if(mPassword.getTitle() == null || mPassword.getTitle().isEmpty()){
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                    builder.setTitle(R.string.alert_navigate_home_title_empty_title);
+                    builder.setMessage(R.string.alert_navigate_home_title_empty_message);
+                    builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            PasswordStation.get(getActivity()).deletePassword(mPassword);
+                            if (NavUtils.getParentActivityIntent(getActivity()) != null) {
+                                NavUtils.navigateUpFromSameTask(getActivity());
+                            }
+                            Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
+                        }
+                    });
+                    builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                        @Override
+                        public void onClick(DialogInterface dialog, int which) {
+                            //Do nothing and go back
+                        }
+                    });
+                    builder.setIcon(android.R.drawable.ic_dialog_alert);
+                    AlertDialog alert = builder.create();
+                    alert.show();
+                }else {
+                    if (NavUtils.getParentActivityIntent(getActivity()) != null) {
+                        NavUtils.navigateUpFromSameTask(getActivity());
+                    }
                 }
                 return true;
+            case R.id.password_fragment_menu_delete:
+                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                builder.setTitle(R.string.alert_delete_title);
+                builder.setMessage(R.string.alert_delete_message);
+                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        PasswordStation.get(getActivity()).deletePassword(mPassword);
+                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        startActivity(intent);
+                        Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
+                    }
+                });
+                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialog, int which) {
+                        //Do nothing and go back
+                    }
+                });
+                builder.setIcon(android.R.drawable.ic_dialog_alert);
+                AlertDialog alert = builder.create();
+                alert.show();
             default:
                 return super.onOptionsItemSelected(item);
         }
@@ -254,11 +311,6 @@ public class PasswordFragment extends Fragment {
 
         mCopyBtn = (Button)v.findViewById(R.id.password_copy_brn);
         mCopyBtn.setEnabled(true);
-//        if(mPassword.getPass() != null && !mPassword.getPass().isEmpty()){
-//            mCopyBtn.setEnabled(true);
-//        }else{
-//            mCopyBtn.setEnabled(false);
-//        }
         mCopyBtn.setOnClickListener(new View.OnClickListener() {
             @SuppressWarnings("deprecation")
             @TargetApi(11)
@@ -296,52 +348,59 @@ public class PasswordFragment extends Fragment {
             }
         });
 
-        mDeleteBtn = (Button)v.findViewById(R.id.password_delete_btn);
-        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                //PasswordStation.get(getActivity()).deletePassword(mPassword);
-
-                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-                builder.setTitle(R.string.alert_delete_title);
-                builder.setMessage(R.string.alert_delete_message);
-                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        PasswordStation.get(getActivity()).deletePassword(mPassword);
-                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                        startActivity(intent);
-                        Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
-                    }
-                });
-                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-                    @Override
-                    public void onClick(DialogInterface dialog, int which) {
-                        //Do nothing and go back
-                    }
-                });
-                builder.setIcon(android.R.drawable.ic_dialog_alert);
-                AlertDialog alert = builder.create();
-                alert.show();
-
-
-            }
-        });
-        mDeleteBtn.setEnabled(true);
+//        mDeleteBtn = (Button)v.findViewById(R.id.password_delete_btn);
+//        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
+//            @Override
+//            public void onClick(View v) {
+//                //PasswordStation.get(getActivity()).deletePassword(mPassword);
+//
+//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+//                builder.setTitle(R.string.alert_delete_title);
+//                builder.setMessage(R.string.alert_delete_message);
+//                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        PasswordStation.get(getActivity()).deletePassword(mPassword);
+//                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+//                        startActivity(intent);
+//                        Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
+//                    }
+//                });
+//                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
+//                    @Override
+//                    public void onClick(DialogInterface dialog, int which) {
+//                        //Do nothing and go back
+//                    }
+//                });
+//                builder.setIcon(android.R.drawable.ic_dialog_alert);
+//                AlertDialog alert = builder.create();
+//                alert.show();
+//
+//
+//            }
+//        });
+//        mDeleteBtn.setEnabled(true);
 
         mSaveBtn = (Button)v.findViewById(R.id.password_save_btn);
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                Intent intent = new Intent(getActivity(), PasswordListActivity.class);
-                intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-                //intent.putExtra(EXTRA_PASSWORD_ID, 0);
-                startActivity(intent);
-                Toast.makeText(getActivity(),R.string.toast_password_saved, Toast.LENGTH_LONG).show();
+                if(mPassword.getTitle() == null || mPassword.getTitle().isEmpty()){
+                    mTitleField.requestFocus();
+                    mTitleField.setError("Please enter a Title");
+                }else {
+                    Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                    intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                    //intent.putExtra(EXTRA_PASSWORD_ID, 0);
+                    startActivity(intent);
+                    Toast.makeText(getActivity(), R.string.toast_password_saved, Toast.LENGTH_LONG).show();
+                }
             }
         });
         mSaveBtn.setEnabled(true);
+        //Making sure the software keyboard does not pop up on page load
+        getActivity().getWindow().setSoftInputMode(EditorInfo.IME_ACTION_DONE);
 
         return v;
     }

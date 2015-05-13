@@ -20,6 +20,8 @@
     <string name="alert_delete_message">Are you sure you want to delete this Password?</string>
     <string name="alert_change_password_title">Random Password</string>
     <string name="alert_change_password_message">Generate Password?</string>
+    <string name="alert_navigate_home_title_empty_title">Navigate Back</string>
+    <string name="alert_navigate_home_title_empty_message">No title present. If you go back this password will be deleted.  Are you sure?</string>
     <string name="copy_btn">Copy to Clipboard</string>
     <string name="toast_password_copied">Password Copied</string>
     <string name="toast_password_saved">Password Saved</string>
@@ -30,5 +32,4 @@
     <string name="options_sort_alpha">Sort Alpha</string>
     <string name="options_sort_date">Sort by Date</string>
     <string name="options_preferences">Preferences</string>
-    <string name="options_exit">Exit</string>
 </resources>
