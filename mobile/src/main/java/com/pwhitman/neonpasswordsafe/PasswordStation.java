@@ -34,9 +34,11 @@ public class PasswordStation {
     public void addPassword(Password p){
         mPasswords.add(p);
     }
+
     public void deletePassword(Password p){
         mPasswords.remove(p);
     }
+
     public boolean savePasswords(){
         try{
             mSerializer.savePasswords(mPasswords);

@@ -6,11 +6,19 @@
                  android:icon="@drawable/ic_launcher"
                  android:theme="@style/AppTheme">
 
-        <activity android:name=".PasswordListActivity">
+        <activity android:name=".LoginActivity"
+            android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
                 <category android:name="android.intent.category.LAUNCHER"/>
             </intent-filter>
+        </activity>
+
+        <activity android:name=".PasswordListActivity">
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action."/>-->
+                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
+            <!--</intent-filter>-->
         </activity>
 
         <activity android:name=".PasswordActivity"

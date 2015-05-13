@@ -8,10 +8,10 @@
     <string name="password_creation_date">Creation Date</string>
     <string name="password_username">Username</string>
     <string name="password_notes">Notes</string>
-    <string name="password_title_hint">Enter a Title</string>
-    <string name="password_username_hint">Enter a Username</string>
-    <string name="password_hint">Enter a Password</string>
-    <string name="password_notes_hint">Enter notes</string>
+    <string name="password_title_hint">enter a title</string>
+    <string name="password_username_hint">enter a username</string>
+    <string name="password_hint">enter a password</string>
+    <string name="password_notes_hint">enter notes</string>
     <string name="password_generate">Generate Password</string>
     <string name="save_btn">Save</string>
     <string name="new_password">New Password</string>
@@ -32,4 +32,8 @@
     <string name="options_sort_alpha">Sort Alpha</string>
     <string name="options_sort_date">Sort by Date</string>
     <string name="options_preferences">Preferences</string>
+    <string name="login_master_password_hint">master password</string>
+    <string name="login_verify_password_hint">verify password</string>
+    <string name="login_enter">Enter</string>
+    <string name="login_error_passwords_dont_match">Passwords do not match</string>
 </resources>
