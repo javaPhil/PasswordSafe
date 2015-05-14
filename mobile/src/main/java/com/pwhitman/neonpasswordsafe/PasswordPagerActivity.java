@@ -25,6 +25,7 @@ public class PasswordPagerActivity extends FragmentActivity{
         mViewPager = new ViewPager(this);
         mViewPager.setId(R.id.viewPager);
         setContentView(mViewPager);
+        setTitle(R.string.new_password);
 
         mPasswords = PasswordStation.get(this).getPasswords();
 
@@ -32,8 +33,8 @@ public class PasswordPagerActivity extends FragmentActivity{
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int i) {
-                Password password = mPasswords.get(i);
-                return PasswordFragment.newInstance(password.getId());
+                Password p = mPasswords.get(i);
+                return PasswordFragment.newInstance(p.getId());
             }
 
             @Override
@@ -67,6 +68,7 @@ public class PasswordPagerActivity extends FragmentActivity{
         UUID passId = (UUID)getIntent().getSerializableExtra(PasswordFragment.EXTRA_PASSWORD_ID);
         for(int i = 0; i <  mPasswords.size(); i++){
             if(mPasswords.get(i).getId().equals(passId)){
+                setTitle(mPasswords.get(i).getTitle());
                 mViewPager.setCurrentItem(i);
                 break;
             }

@@ -402,6 +402,8 @@ public class PasswordFragment extends Fragment {
         //Making sure the software keyboard does not pop up on page load
         getActivity().getWindow().setSoftInputMode(EditorInfo.IME_ACTION_DONE);
 
+
+
         return v;
     }
 

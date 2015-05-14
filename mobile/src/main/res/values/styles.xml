@@ -9,6 +9,11 @@
 
     </style>
 
+    <style name="LogoTitle">
+        <item name="android:textColor">@color/ColorPrimary</item>
+        <item name="android:textSize">20sp</item>
+        <item name="android:padding">10dp</item>
+    </style>
     <style name="EditText">
         <item name="android:textColor">@color/ColorPrimaryDark</item>
     </style>

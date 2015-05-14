@@ -41,7 +41,6 @@ public class PasswordListFragment extends ListFragment {
 
         PasswordAdapter adapter = new PasswordAdapter(mPasswords);
         setListAdapter(adapter);
-
         setRetainInstance(true);
     }
 
@@ -50,6 +49,8 @@ public class PasswordListFragment extends ListFragment {
         super.onResume();
         updateUI();
     }
+
+
 
     public void updateUI(){
         ((PasswordAdapter)getListAdapter()).notifyDataSetChanged();

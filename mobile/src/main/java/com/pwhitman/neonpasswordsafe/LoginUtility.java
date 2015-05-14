@@ -20,7 +20,7 @@ public class LoginUtility {
     public static final String PREFERENCES = "com.pwhitman.neonpasswordsafe";
 
     public static String hash(String input){
-        Log.i(TAG, "Input string: " + input);
+//        Log.i(TAG, "Input string: " + input);
         final String algorithm = "SHA-256";
         try {
             // Create MD5 Hash
@@ -36,7 +36,7 @@ public class LoginUtility {
                     h = "0" + h;
                 hexString.append(h);
             }
-            Log.i(TAG, "Hashed string: " + hexString.toString());
+//            Log.i(TAG, "Hashed string: " + hexString.toString());
             return hexString.toString();
 
         } catch (Exception e) {

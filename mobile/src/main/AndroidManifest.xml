@@ -3,7 +3,7 @@
 
     <application android:allowBackup="true"
                  android:label="@string/app_name"
-                 android:icon="@drawable/ic_launcher"
+                 android:icon="@drawable/vault_launcher"
                  android:theme="@style/AppTheme">
 
         <activity android:name=".LoginActivity"
@@ -15,10 +15,6 @@
         </activity>
 
         <activity android:name=".PasswordListActivity">
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action."/>-->
-                <!--<category android:name="android.intent.category.LAUNCHER"/>-->
-            <!--</intent-filter>-->
         </activity>
 
         <activity android:name=".PasswordActivity"
@@ -28,8 +24,7 @@
         </activity>
 
         <activity
-            android:name=".PasswordPagerActivity"
-            android:label="NeonPasswordSafe">
+            android:name=".PasswordPagerActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
                 android:value=".PasswordListActivity"/>
             </activity>

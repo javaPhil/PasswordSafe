@@ -100,7 +100,7 @@ public class LoginFragment extends Fragment {
                     //Check the stored password against the user inputted password
                     if(LoginUtility.hash(masterPass).equals(LoginUtility.getStoredPass(getActivity()))){
                         Intent intent = new Intent(getActivity(), PasswordListActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{
                         mMasterPassword.setError("Login failed, try again");
@@ -122,7 +122,7 @@ public class LoginFragment extends Fragment {
                         e.putBoolean(LoginUtility.PREF_SORT_ALPHA, false);
                         e.commit();
                         Intent intent = new Intent(getActivity(), PasswordListActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{
                         mVerifyPassword.setError("Passwords do not match.");
