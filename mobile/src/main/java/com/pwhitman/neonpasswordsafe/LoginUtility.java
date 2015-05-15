@@ -15,7 +15,9 @@ public class LoginUtility {
     public static final String PREF_PASSWORD = "password";
     public static final String PREF_USER_ID = "userUUID";
     public static final String PREF_SORT_ALPHA = "sortAlpha";
+    public static final String PREF_SORT_ALPHA_REVERSE = "sortAlphaReverse";
     public static final String PREF_SORT_DATE = "sortDate";
+    public static final String PREF_SORT_DATE_REVERSE = "sortDateReverse";
     public static final String PREF_SORT_DEFAULT = PREF_SORT_DATE;
     public static final String PREFERENCES = "com.pwhitman.neonpasswordsafe";
 

@@ -120,6 +120,8 @@ public class LoginFragment extends Fragment {
                         e.putString(LoginUtility.PREF_PASSWORD, LoginUtility.hash(masterPass));
                         e.putBoolean(LoginUtility.PREF_SORT_DEFAULT, true);
                         e.putBoolean(LoginUtility.PREF_SORT_ALPHA, false);
+                        e.putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
+                        e.putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
                         e.commit();
                         Intent intent = new Intent(getActivity(), PasswordListActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);

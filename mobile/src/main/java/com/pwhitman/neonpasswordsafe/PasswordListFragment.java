@@ -2,10 +2,13 @@ package com.pwhitman.neonpasswordsafe;
 
 
 import android.annotation.TargetApi;
+import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -22,6 +25,8 @@ import android.widget.TextView;
 
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.Date;
 
 /**
@@ -31,6 +36,11 @@ public class PasswordListFragment extends ListFragment {
 
     private ArrayList<Password> mPasswords;
     private static final String TAG = "PasswordListFragment";
+    private boolean sortByDate;
+    private boolean sortByDateReverse;
+    private boolean sortByAlpha;
+    private boolean sortByAlphaReverse;
+    private SharedPreferences mPrefs;
 
     @Override
     public void onCreate(Bundle savedInstanceState){
@@ -38,6 +48,40 @@ public class PasswordListFragment extends ListFragment {
         setHasOptionsMenu(true);
         getActivity().setTitle(R.string.password_list_title);
         mPasswords = PasswordStation.get(getActivity()).getPasswords();
+
+
+        mPrefs = getActivity().getSharedPreferences(LoginUtility.PREFERENCES, Context.MODE_PRIVATE);
+        sortByDate = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE, true);
+        sortByAlpha = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA, false);
+        sortByDateReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
+        sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
+
+        //Getting user preference on sorting
+        if(sortByDate){
+            Collections.sort(mPasswords, new Comparator<Password>() {
+                @Override
+                public int compare(Password p1, Password p2) {
+                    if (p1.getCreationDate() == null || p2.getCreationDate() == null) {
+                        return 0;
+                    } else {
+                        return p1.getCreationDate().compareTo(p2.getCreationDate());
+                    }
+
+                }
+            });
+        }else{
+            Collections.sort(mPasswords, new Comparator<Password>() {
+                @Override
+                public int compare(Password p1, Password p2) {
+                    if (p1.getTitle() == null || p2.getTitle() == null) {
+                        return 0;
+                    } else {
+                        return p1.getTitle().compareTo(p2.getTitle());
+                    }
+
+                }
+            });
+        }
 
         PasswordAdapter adapter = new PasswordAdapter(mPasswords);
         setListAdapter(adapter);
@@ -91,15 +135,17 @@ public class PasswordListFragment extends ListFragment {
                 public boolean onActionItemClicked(ActionMode actionMode, MenuItem menuItem) {
                     switch(menuItem.getItemId()){
                         case R.id.menu_item_delete_password:
-                            PasswordAdapter adapter = (PasswordAdapter)getListAdapter();
+                        {
+                            PasswordAdapter adapter = (PasswordAdapter) getListAdapter();
                             PasswordStation passStation = PasswordStation.get(getActivity());
-                            for(int i = adapter.getCount() - 1; i >= 0; i--){
-                                if(getListView().isItemChecked(i)){
+                            for (int i = adapter.getCount() - 1; i >= 0; i--) {
+                                if (getListView().isItemChecked(i)) {
                                     passStation.deletePassword(adapter.getItem(i));
                                 }
                             }
                             actionMode.finish();
                             adapter.notifyDataSetChanged();
+                        }
                             return true;
                         default:
                             return false;
@@ -162,6 +208,88 @@ public class PasswordListFragment extends ListFragment {
                 i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, pass.getId());
                 startActivityForResult(i, 0);
                 return true;
+            case R.id.sub_menu_sort_date:
+            {
+                //Getting booleans for sorting
+                sortByDate = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE, false);
+                sortByDateReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);;
+
+                PasswordAdapter adapter = (PasswordAdapter) getListAdapter();
+                PasswordStation passStation = PasswordStation.get(getActivity());
+
+                if(sortByDate && sortByDateReverse){
+                    Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
+                        @Override
+                        public int compare(Password p1, Password p2) {
+                            if (p1.getCreationDate() == null || p2.getCreationDate() == null) {
+                                return 0;
+                            } else {
+                                return p2.getCreationDate().compareTo(p1.getCreationDate());
+                            }
+                        }
+                    });
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
+                }else {
+                    Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
+                        @Override
+                        public int compare(Password p1, Password p2) {
+                            if (p1.getCreationDate() == null || p2.getCreationDate() == null) {
+                                return 0;
+                            } else {
+                                return p1.getCreationDate().compareTo(p2.getCreationDate());
+                            }
+
+                        }
+                    });
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, true).commit();
+                }
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE, true).commit();
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA, false).commit();
+                adapter.notifyDataSetChanged();
+            }
+            return true;
+            case R.id.sub_menu_sort_alpha:
+            {
+
+                //Getting booleans for sorting
+                PasswordAdapter adapter = (PasswordAdapter) getListAdapter();
+                PasswordStation passStation = PasswordStation.get(getActivity());
+
+                sortByAlpha = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA, false);
+                sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);;
+
+                if(sortByAlpha && sortByAlphaReverse){
+                    Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
+                        @Override
+                        public int compare(Password p1, Password p2) {
+                            if (p1.getTitle() == null || p2.getTitle() == null) {
+                                return 0;
+                            } else {
+                                return p2.getTitle().compareTo(p1.getTitle());
+                            }
+
+                        }
+                    });
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
+                }else {
+                    Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
+                        @Override
+                        public int compare(Password p1, Password p2) {
+                            if (p1.getTitle() == null || p2.getTitle() == null) {
+                                return 0;
+                            } else {
+                                return p1.getTitle().compareTo(p2.getTitle());
+                            }
+
+                        }
+                    });
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, true).commit();
+                }
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE, false).commit();
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA, true).commit();
+                adapter.notifyDataSetChanged();
+            }
+            return true;
             default:
                 return super.onOptionsItemSelected(item);
         }
