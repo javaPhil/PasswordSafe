@@ -26,17 +26,12 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
-
-import com.pwhitman.passwordvault.R;
-
 import java.util.UUID;
 
 public class PasswordFragment extends Fragment {
 
     public static final String EXTRA_PASSWORD_ID = "com.pwhitman.passwordvault.password_id";
     private static final String TAG = "PasswordFragment";
-
-    private static final int REQUEST_DATE = 0;
 
     private Password mPassword;
     private EditText mTitleField;
@@ -46,7 +41,6 @@ public class PasswordFragment extends Fragment {
     private EditText mPasswordField;
     private EditText mNotes;
     private Button mGeneratePassBtn;
-//    private Button mDeleteBtn;
     private Button mSaveBtn;
     private Button mCopyBtn;
     private ImageButton mShowHideBtn;
@@ -347,40 +341,6 @@ public class PasswordFragment extends Fragment {
             }
         });
 
-//        mDeleteBtn = (Button)v.findViewById(R.id.password_delete_btn);
-//        mDeleteBtn.setOnClickListener(new View.OnClickListener() {
-//            @Override
-//            public void onClick(View v) {
-//                //PasswordStation.get(getActivity()).deletePassword(mPassword);
-//
-//                AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
-//                builder.setTitle(R.string.alert_delete_title);
-//                builder.setMessage(R.string.alert_delete_message);
-//                builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        PasswordStation.get(getActivity()).deletePassword(mPassword);
-//                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
-//                        intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-//                        startActivity(intent);
-//                        Toast.makeText(getActivity(), R.string.toast_password_deleted, Toast.LENGTH_LONG).show();
-//                    }
-//                });
-//                builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                    @Override
-//                    public void onClick(DialogInterface dialog, int which) {
-//                        //Do nothing and go back
-//                    }
-//                });
-//                builder.setIcon(android.R.drawable.ic_dialog_alert);
-//                AlertDialog alert = builder.create();
-//                alert.show();
-//
-//
-//            }
-//        });
-//        mDeleteBtn.setEnabled(true);
-
         mSaveBtn = (Button)v.findViewById(R.id.password_save_btn);
         mSaveBtn.setOnClickListener(new View.OnClickListener() {
             @Override
@@ -400,8 +360,6 @@ public class PasswordFragment extends Fragment {
         mSaveBtn.setEnabled(true);
         //Making sure the software keyboard does not pop up on page load
         getActivity().getWindow().setSoftInputMode(EditorInfo.IME_ACTION_DONE);
-
-
 
         return v;
     }

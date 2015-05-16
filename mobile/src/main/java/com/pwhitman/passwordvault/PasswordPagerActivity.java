@@ -36,7 +36,6 @@ public class PasswordPagerActivity extends FragmentActivity{
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
             @Override
             public Fragment getItem(int i) {
-
                 Password p = mPasswords.get(i);
                 return PasswordFragment.newInstance(p.getId());
             }
@@ -47,19 +46,17 @@ public class PasswordPagerActivity extends FragmentActivity{
             }
         });
 
-
-
-
         mViewPager.setOnPageChangeListener(new ViewPager.OnPageChangeListener(){
             @Override
             public void onPageScrolled(int i, float v, int i2) {
+
             }
 
             @Override
             public void onPageSelected(int i) {
                 Password p = mPasswords.get(i);
                 mCurrentPass = p;
-                if(p.getTitle() != null){
+                if(p.getTitle() != null && !p.getTitle().trim().isEmpty()){
                     setTitle(p.getTitle());
                 }else{
                     setTitle(R.string.new_password);
@@ -75,15 +72,18 @@ public class PasswordPagerActivity extends FragmentActivity{
         UUID passId = (UUID)getIntent().getSerializableExtra(PasswordFragment.EXTRA_PASSWORD_ID);
         for(int i = 0; i <  mPasswords.size(); i++){
             if(mPasswords.get(i).getId().equals(passId)){
-                setTitle(mPasswords.get(i).getTitle());
                 mViewPager.setCurrentItem(i);
                 mCurrentPass = mPasswords.get(i);
+                if(mCurrentPass.getTitle() != null && !mCurrentPass.getTitle().trim().isEmpty()){
+                    setTitle(mCurrentPass.getTitle());
+                }else{
+                    setTitle(R.string.new_password);
+                }
                 break;
             }
         }
 
         if(mCurrentPass != null && (mCurrentPass.getTitle() == null || mCurrentPass.getTitle().isEmpty())) {
-
             mViewPager.setPagingEnabled(false);
         }else{
             mViewPager.setPagingEnabled(true);
