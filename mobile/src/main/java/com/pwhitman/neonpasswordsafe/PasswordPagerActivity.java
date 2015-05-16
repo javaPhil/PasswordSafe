@@ -35,7 +35,6 @@ public class PasswordPagerActivity extends FragmentActivity{
         setContentView(mViewPager);
         setTitle(R.string.new_password);
         mPasswords = PasswordStation.get(this).getPasswords();
-        Log.i(TAG, "onCreate called");
 
         FragmentManager fm = getSupportFragmentManager();
         mViewPager.setAdapter(new FragmentStatePagerAdapter(fm) {
@@ -43,7 +42,6 @@ public class PasswordPagerActivity extends FragmentActivity{
             public Fragment getItem(int i) {
 
                 Password p = mPasswords.get(i);
-                Log.i(TAG, "getItem called title: " + p.getTitle());
                 return PasswordFragment.newInstance(p.getId());
             }
 
@@ -84,13 +82,12 @@ public class PasswordPagerActivity extends FragmentActivity{
                 setTitle(mPasswords.get(i).getTitle());
                 mViewPager.setCurrentItem(i);
                 mCurrentPass = mPasswords.get(i);
-                Log.i(TAG, "for loop, setting current item called: title: " + mPasswords.get(i).getTitle());
                 break;
             }
         }
 
         if(mCurrentPass != null && (mCurrentPass.getTitle() == null || mCurrentPass.getTitle().isEmpty())) {
-//            Toast.makeText(mViewPager.getContext(), "Please enter a title or delete this password before swiping", Toast.LENGTH_LONG);
+
             mViewPager.setPagingEnabled(false);
         }else{
             mViewPager.setPagingEnabled(true);
@@ -99,35 +96,9 @@ public class PasswordPagerActivity extends FragmentActivity{
 
     @Override
     public void onBackPressed() {
-//        final boolean backPressed = true;
-//        if(mCurrentPass != null && (mCurrentPass.getTitle() == null || mCurrentPass.getTitle().trim().isEmpty())){
-//            AlertDialog.Builder builder = new AlertDialog.Builder(this);
-//            builder.setTitle(R.string.alert_navigate_home_title_empty_title);
-//            builder.setMessage(R.string.alert_navigate_home_title_empty_message);
-//            builder.setPositiveButton(android.R.string.yes, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    PasswordStation.get(mViewPager.getContext()).deletePassword(mCurrentPass);
-//
-//                }
-//
-//            });
-//            builder.setNegativeButton(android.R.string.no, new DialogInterface.OnClickListener() {
-//                @Override
-//                public void onClick(DialogInterface dialog, int which) {
-//                    //Do nothing and go back
-//                final boolean backPressed = false;
-//                }
-//            });
-//            builder.setIcon(android.R.drawable.ic_dialog_alert);
-//            AlertDialog alert = builder.create();
-//
-//            alert.show();
-//
-//        }
-//        if(backPressed) super.onBackPressed();
         if(mCurrentPass != null && (mCurrentPass.getTitle() == null || mCurrentPass.getTitle().trim().isEmpty()))
             PasswordStation.get(mViewPager.getContext()).deletePassword(mCurrentPass);
+
         super.onBackPressed();
 
     }
