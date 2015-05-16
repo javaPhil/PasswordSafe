@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
 
-    <string name="app_name">PasswordSafe</string>
-    <string name="password_list_title">Password Safe</string>
+    <string name="app_name">PasswordVault</string>
+    <string name="password_list_title">Password Vault</string>
     <string name="password_title">Title</string>
     <string name="password_text">Password</string>
     <string name="password_creation_date">Creation Date</string>
@@ -32,7 +32,7 @@
     <string name="options_sort_alpha">Sort Alpha</string>
     <string name="options_sort_date">Sort by Date</string>
     <string name="options_preferences">Preferences</string>
-    <string name="login_master_password_hint">master password</string>
+    <string name="login_master_password_hint">vault master password</string>
     <string name="login_verify_password_hint">verify password</string>
     <string name="login_enter">Enter</string>
     <string name="login_error_passwords_dont_match">Passwords do not match</string>

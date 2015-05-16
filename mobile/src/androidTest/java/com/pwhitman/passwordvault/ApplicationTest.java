@@ -1,4 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 import android.app.Application;
 import android.test.ApplicationTestCase;

@@ -5,7 +5,7 @@ android {
     buildToolsVersion "21.1.2"
 
     defaultConfig {
-        applicationId "com.pwhitman.neonpasswordsafe"
+        applicationId "com.pwhitman.passwordvault"
         minSdkVersion 14
         targetSdkVersion 21
         versionCode 1

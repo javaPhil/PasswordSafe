@@ -1,4 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 import android.content.Context;
 import android.content.Intent;
@@ -12,6 +12,8 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.EditText;
+
+import com.pwhitman.passwordvault.R;
 
 import java.util.UUID;
 

@@ -1,18 +1,14 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 
-import android.app.AlertDialog;
-import android.content.DialogInterface;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.MotionEvent;
-import android.view.View;
-import android.widget.Toast;
+
+import com.pwhitman.passwordvault.R;
 
 import java.util.ArrayList;
 import java.util.UUID;

@@ -1,4 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 import android.content.Context;
 import android.util.Log;

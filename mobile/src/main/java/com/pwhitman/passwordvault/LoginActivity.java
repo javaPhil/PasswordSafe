@@ -1,4 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 import android.support.v4.app.Fragment;
 

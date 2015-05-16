@@ -1,24 +1,14 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 import android.util.Base64;
 import android.util.Log;
 
-import java.io.InputStream;
 import java.math.BigInteger;
-import java.net.URL;
-import java.nio.ByteBuffer;
-import java.security.Key;
-import java.security.KeyPair;
-import java.security.KeyPairGenerator;
 import java.security.MessageDigest;
 import java.security.SecureRandom;
-import java.security.spec.AlgorithmParameterSpec;
 import java.util.Arrays;
-import java.util.UUID;
 
 import javax.crypto.Cipher;
-import javax.crypto.KeyGenerator;
-import javax.crypto.spec.IvParameterSpec;
 import javax.crypto.spec.SecretKeySpec;
 
 /**

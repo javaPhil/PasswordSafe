@@ -1,6 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
-
-import android.util.Log;
+package com.pwhitman.passwordvault;
 
 import org.json.JSONException;
 import org.json.JSONObject;

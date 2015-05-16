@@ -1,12 +1,12 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pwhitman.neonpasswordsafe">
+          package="com.pwhitman.passwordvault">
 
     <application android:allowBackup="true"
                  android:label="@string/app_name"
                  android:icon="@drawable/vault_launcher"
                  android:theme="@style/AppTheme">
 
-        <activity android:name=".LoginActivity"
+        <activity android:name="com.pwhitman.passwordvault.LoginActivity"
             android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -14,19 +14,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name=".PasswordListActivity">
+        <activity android:name="com.pwhitman.passwordvault.PasswordListActivity">
         </activity>
 
-        <activity android:name=".PasswordActivity"
+        <activity android:name="com.pwhitman.passwordvault.PasswordActivity"
             android:label="@string/app_name">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PasswordListActivity"/>
+                android:value="com.pwhitman.passwordvault.PasswordListActivity"/>
         </activity>
 
         <activity
-            android:name=".PasswordPagerActivity">
+            android:name="com.pwhitman.passwordvault.PasswordPagerActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value=".PasswordListActivity"/>
+                android:value="com.pwhitman.passwordvault.PasswordListActivity"/>
             </activity>
 
     </application>

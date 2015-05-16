@@ -1,4 +1,4 @@
-package com.pwhitman.neonpasswordsafe;
+package com.pwhitman.passwordvault;
 
 
 import android.annotation.TargetApi;
@@ -14,7 +14,6 @@ import android.support.v4.app.NavUtils;
 import android.text.Editable;
 import android.text.InputType;
 import android.text.TextWatcher;
-import android.util.Log;
 import android.util.Patterns;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -23,18 +22,18 @@ import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.inputmethod.EditorInfo;
-import android.webkit.URLUtil;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.ImageButton;
 import android.widget.Toast;
 
-import java.net.HttpURLConnection;
+import com.pwhitman.passwordvault.R;
+
 import java.util.UUID;
 
 public class PasswordFragment extends Fragment {
 
-    public static final String EXTRA_PASSWORD_ID = "com.pwhitman.neonpasswordsafe.password_id";
+    public static final String EXTRA_PASSWORD_ID = "com.pwhitman.passwordvault.password_id";
     private static final String TAG = "PasswordFragment";
 
     private static final int REQUEST_DATE = 0;
