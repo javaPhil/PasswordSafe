@@ -8,6 +8,7 @@ import android.content.SharedPreferences;
 import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.util.Log;
 import android.view.ActionMode;
 import android.view.ContextMenu;
 import android.view.LayoutInflater;
@@ -57,7 +58,19 @@ public class PasswordListFragment extends ListFragment {
         sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
 
         //Getting user preference on sorting
-        if(sortByDate){
+        if(sortByDate && sortByDateReverse){
+            Collections.sort(mPasswords, new Comparator<Password>() {
+                @Override
+                public int compare(Password p1, Password p2) {
+                    if (p1.getCreationDate() == null || p2.getCreationDate() == null) {
+                        return 0;
+                    } else {
+                        return p2.getCreationDate().compareTo(p1.getCreationDate());
+                    }
+                }
+            });
+//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
+        }else if(sortByDate && !sortByDateReverse) {
             Collections.sort(mPasswords, new Comparator<Password>() {
                 @Override
                 public int compare(Password p1, Password p2) {
@@ -69,7 +82,21 @@ public class PasswordListFragment extends ListFragment {
 
                 }
             });
-        }else{
+//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, true).commit();
+        }else if(sortByAlpha && sortByAlphaReverse){
+            Collections.sort(mPasswords, new Comparator<Password>() {
+                @Override
+                public int compare(Password p1, Password p2) {
+                    if (p1.getTitle() == null || p2.getTitle() == null) {
+                        return 0;
+                    } else {
+                        return p2.getTitle().compareTo(p1.getTitle());
+                    }
+
+                }
+            });
+//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
+        }else if(sortByAlpha && !sortByAlphaReverse) {
             Collections.sort(mPasswords, new Comparator<Password>() {
                 @Override
                 public int compare(Password p1, Password p2) {
@@ -81,6 +108,7 @@ public class PasswordListFragment extends ListFragment {
 
                 }
             });
+//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, true).commit();
         }
 
         PasswordAdapter adapter = new PasswordAdapter(mPasswords);
@@ -93,8 +121,6 @@ public class PasswordListFragment extends ListFragment {
         super.onResume();
         updateUI();
     }
-
-
 
     public void updateUI(){
         ((PasswordAdapter)getListAdapter()).notifyDataSetChanged();
@@ -185,7 +211,6 @@ public class PasswordListFragment extends ListFragment {
     @Override
     public void onListItemClick(ListView l, View v, int position, long id) {
         Password p = ((PasswordAdapter)getListAdapter()).getItem(position);
-
         Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
         i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, p.getId());
         startActivity(i);
@@ -217,7 +242,7 @@ public class PasswordListFragment extends ListFragment {
                 PasswordAdapter adapter = (PasswordAdapter) getListAdapter();
                 PasswordStation passStation = PasswordStation.get(getActivity());
 
-                if(sortByDate && sortByDateReverse){
+                if(sortByDate && !sortByDateReverse){
                     Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
                         @Override
                         public int compare(Password p1, Password p2) {
@@ -228,7 +253,7 @@ public class PasswordListFragment extends ListFragment {
                             }
                         }
                     });
-                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, true).commit();
                 }else {
                     Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
                         @Override
@@ -241,10 +266,11 @@ public class PasswordListFragment extends ListFragment {
 
                         }
                     });
-                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, true).commit();
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
                 }
                 mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE, true).commit();
                 mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA, false).commit();
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
                 adapter.notifyDataSetChanged();
             }
             return true;
@@ -258,7 +284,7 @@ public class PasswordListFragment extends ListFragment {
                 sortByAlpha = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA, false);
                 sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);;
 
-                if(sortByAlpha && sortByAlphaReverse){
+                if(sortByAlpha && !sortByAlphaReverse){
                     Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
                         @Override
                         public int compare(Password p1, Password p2) {
@@ -270,7 +296,7 @@ public class PasswordListFragment extends ListFragment {
 
                         }
                     });
-                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, true).commit();
                 }else {
                     Collections.sort(passStation.getPasswords(), new Comparator<Password>() {
                         @Override
@@ -283,9 +309,10 @@ public class PasswordListFragment extends ListFragment {
 
                         }
                     });
-                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, true).commit();
+                    mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
                 }
                 mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE, false).commit();
+                mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
                 mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA, true).commit();
                 adapter.notifyDataSetChanged();
             }
