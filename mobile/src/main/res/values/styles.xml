@@ -9,6 +9,7 @@
 
     </style>
 
+
     <style name="LogoTitle">
         <item name="android:textColor">@color/ColorPrimary</item>
         <item name="android:textSize">20sp</item>
