@@ -23,6 +23,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.melnykov.fab.FloatingActionButton;
 import com.pwhitman.passwordvault.R;
 
 import java.text.SimpleDateFormat;
@@ -129,9 +130,20 @@ public class PasswordListFragment extends ListFragment {
     @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-        View v = super.onCreateView(inflater, container, savedInstanceState);
-
+//        View v = super.onCreateView(inflater, container, savedInstanceState);
+        View v = inflater.inflate(R.layout.fragment_password_list, container, false);
         ListView listView = (ListView)v.findViewById(android.R.id.list);
+        FloatingActionButton fab = (FloatingActionButton)v.findViewById(R.id.fab);
+        fab.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                Password pass = new Password();
+                PasswordStation.get(getActivity()).addPassword(pass);
+                Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
+                i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, pass.getId());
+                startActivityForResult(i, 0);
+            }
+        });
         if(Build.VERSION.SDK_INT < Build.VERSION_CODES.HONEYCOMB){
             //Use floating context menus on Froyo and Gingerbread
             registerForContextMenu(listView);
