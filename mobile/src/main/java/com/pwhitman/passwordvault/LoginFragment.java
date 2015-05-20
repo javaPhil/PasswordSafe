@@ -125,7 +125,7 @@ public class LoginFragment extends Fragment {
                         e.putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
                         e.putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
                         e.commit();
-                        Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                        Intent intent = new Intent(getActivity(), TutorialActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{

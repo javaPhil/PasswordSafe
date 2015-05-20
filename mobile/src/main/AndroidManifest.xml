@@ -14,6 +14,10 @@
             </intent-filter>
         </activity>
 
+        <activity android:name=".TutorialActivity">
+
+        </activity>
+
         <activity android:name="com.pwhitman.passwordvault.PasswordListActivity">
         </activity>
 

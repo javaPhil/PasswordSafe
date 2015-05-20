@@ -238,13 +238,13 @@ public class PasswordListFragment extends ListFragment {
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
         switch(item.getItemId()){
-            case R.id.menu_item_new_password:
-                Password pass = new Password();
-                PasswordStation.get(getActivity()).addPassword(pass);
-                Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
-                i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, pass.getId());
-                startActivityForResult(i, 0);
-                return true;
+//            case R.id.menu_item_new_password:
+//                Password pass = new Password();
+//                PasswordStation.get(getActivity()).addPassword(pass);
+//                Intent i = new Intent(getActivity(), PasswordPagerActivity.class);
+//                i.putExtra(PasswordFragment.EXTRA_PASSWORD_ID, pass.getId());
+//                startActivityForResult(i, 0);
+//                return true;
             case R.id.sub_menu_sort_date:
             {
                 //Getting booleans for sorting
