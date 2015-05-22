@@ -27,7 +27,7 @@ public class PasswordStation {
         try{
             mPasswords = mSerializer.loadPasswords();
         }catch(Exception e){
-            Log.e(TAG, "Error loading passwords: ", e);
+//            Log.e(TAG, "Error loading passwords: ", e);
         }
     }
 
@@ -44,7 +44,7 @@ public class PasswordStation {
             mSerializer.savePasswords(mPasswords);
             return true;
         }catch(Exception e){
-            Log.e(TAG, "Error saving passwords: ",e);
+//            Log.e(TAG, "Error saving passwords: ",e);
             return false;
         }
     }

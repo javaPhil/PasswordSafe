@@ -70,7 +70,6 @@ public class PasswordListFragment extends ListFragment {
                     }
                 }
             });
-//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false).commit();
         }else if(sortByDate && !sortByDateReverse) {
             Collections.sort(mPasswords, new Comparator<Password>() {
                 @Override
@@ -83,7 +82,6 @@ public class PasswordListFragment extends ListFragment {
 
                 }
             });
-//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, true).commit();
         }else if(sortByAlpha && sortByAlphaReverse){
             Collections.sort(mPasswords, new Comparator<Password>() {
                 @Override
@@ -96,7 +94,6 @@ public class PasswordListFragment extends ListFragment {
 
                 }
             });
-//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false).commit();
         }else if(sortByAlpha && !sortByAlphaReverse) {
             Collections.sort(mPasswords, new Comparator<Password>() {
                 @Override
@@ -109,7 +106,6 @@ public class PasswordListFragment extends ListFragment {
 
                 }
             });
-//            mPrefs.edit().putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, true).commit();
         }
 
         PasswordAdapter adapter = new PasswordAdapter(mPasswords);
@@ -130,7 +126,6 @@ public class PasswordListFragment extends ListFragment {
     @TargetApi(11)
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
-//        View v = super.onCreateView(inflater, container, savedInstanceState);
         View v = inflater.inflate(R.layout.fragment_password_list, container, false);
         ListView listView = (ListView)v.findViewById(android.R.id.list);
         FloatingActionButton fab = (FloatingActionButton)v.findViewById(R.id.fab);
@@ -249,7 +244,7 @@ public class PasswordListFragment extends ListFragment {
             {
                 //Getting booleans for sorting
                 sortByDate = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE, false);
-                sortByDateReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);;
+                sortByDateReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
 
                 PasswordAdapter adapter = (PasswordAdapter) getListAdapter();
                 PasswordStation passStation = PasswordStation.get(getActivity());
@@ -294,7 +289,7 @@ public class PasswordListFragment extends ListFragment {
                 PasswordStation passStation = PasswordStation.get(getActivity());
 
                 sortByAlpha = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA, false);
-                sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);;
+                sortByAlphaReverse = mPrefs.getBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
 
                 if(sortByAlpha && !sortByAlphaReverse){
                     Collections.sort(passStation.getPasswords(), new Comparator<Password>() {

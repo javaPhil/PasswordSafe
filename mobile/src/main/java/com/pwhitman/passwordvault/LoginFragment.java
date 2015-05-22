@@ -1,6 +1,8 @@
 package com.pwhitman.passwordvault;
 
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -37,7 +39,6 @@ public class LoginFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View v = inflater.inflate(R.layout.fragment_login, container, false);
-
 
         //Get shared preferences and check to see if the preferences exist
         if(LoginUtility.preferencesExist(getActivity())){
@@ -99,9 +100,10 @@ public class LoginFragment extends Fragment {
                         mMasterPassword.setError("Password is empty");
                         return;
                     }
-                    //Check the stored password against the user inputted password
+                    //Check the stored password against the user input password
                     if(LoginUtility.hash(masterPass).equals(LoginUtility.getStoredPass(getActivity()))){
                         Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+//                        Intent intent = new Intent(getActivity(), TutorialTestActivity.class);
                         intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
                         startActivity(intent);
                     }else{
@@ -117,17 +119,36 @@ public class LoginFragment extends Fragment {
                         mVerifyPassword.setError("Password is empty");
                     }
                     if(masterPass.equals(verifyPass)){
-                        SharedPreferences.Editor e = getActivity().getSharedPreferences(LoginUtility.PREFERENCES, Context.MODE_PRIVATE).edit();
-                        e.putString(LoginUtility.PREF_USER_ID, UUID.randomUUID().toString());
-                        e.putString(LoginUtility.PREF_PASSWORD, LoginUtility.hash(masterPass));
-                        e.putBoolean(LoginUtility.PREF_SORT_DEFAULT, true);
-                        e.putBoolean(LoginUtility.PREF_SORT_ALPHA, false);
-                        e.putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
-                        e.putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
-                        e.commit();
-                        Intent intent = new Intent(getActivity(), TutorialActivity.class);
-                        intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
-                        startActivity(intent);
+
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
+                        builder.setTitle("Warning");
+                        builder.setMessage("Do not forget your master password.  If you do, then you will not be able to recover your saved passwords.");
+                        builder.setCancelable(true);
+                        builder.setPositiveButton(android.R.string.ok, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                SharedPreferences.Editor e = getActivity().getSharedPreferences(LoginUtility.PREFERENCES, Context.MODE_PRIVATE).edit();
+                                e.putString(LoginUtility.PREF_USER_ID, UUID.randomUUID().toString());
+                                e.putString(LoginUtility.PREF_PASSWORD, LoginUtility.hash(masterPass));
+                                e.putBoolean(LoginUtility.PREF_SORT_DEFAULT, true);
+                                e.putBoolean(LoginUtility.PREF_SORT_ALPHA, false);
+                                e.putBoolean(LoginUtility.PREF_SORT_ALPHA_REVERSE, false);
+                                e.putBoolean(LoginUtility.PREF_SORT_DATE_REVERSE, false);
+                                e.commit();
+//                        Intent intent = new Intent(getActivity(), TutorialTestActivity.class); NEXT IMPLEMENTATION
+                                Intent intent = new Intent(getActivity(), PasswordListActivity.class);
+                                intent.setFlags(Intent.FLAG_ACTIVITY_NEW_TASK | Intent.FLAG_ACTIVITY_CLEAR_TASK);
+                                startActivity(intent);
+                            }
+                        });
+                        builder.setNegativeButton(android.R.string.cancel, new DialogInterface.OnClickListener() {
+                            @Override
+                            public void onClick(DialogInterface dialog, int which) {
+                                //do nothing
+                            }
+                        });
+                        builder.create().show();
+
                     }else{
                         mVerifyPassword.setError("Passwords do not match.");
                     }

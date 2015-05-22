@@ -13,16 +13,15 @@ public class LoginUtility {
     private static final String TAG = "LoginUtility";
 
     public static final String PREF_PASSWORD = "password";
-    public static final String PREF_USER_ID = "userUUID";
+    public static final String PREF_USER_ID = "userId";
     public static final String PREF_SORT_ALPHA = "sortAlpha";
     public static final String PREF_SORT_ALPHA_REVERSE = "sortAlphaReverse";
     public static final String PREF_SORT_DATE = "sortDate";
     public static final String PREF_SORT_DATE_REVERSE = "sortDateReverse";
     public static final String PREF_SORT_DEFAULT = PREF_SORT_DATE;
-    public static final String PREFERENCES = "com.pwhitman.neonpasswordsafe";
+    public static final String PREFERENCES = "com.pwhitman.passwordvault";
 
     public static String hash(String input){
-//        Log.i(TAG, "Input string: " + input);
         final String algorithm = "SHA-256";
         try {
             // Create MD5 Hash
@@ -38,7 +37,7 @@ public class LoginUtility {
                     h = "0" + h;
                 hexString.append(h);
             }
-//            Log.i(TAG, "Hashed string: " + hexString.toString());
+
             return hexString.toString();
 
         } catch (Exception e) {
