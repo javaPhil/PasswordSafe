@@ -1,5 +1,5 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-          package="com.pwhitman.passwordvault"
+          package="com.javaphil.passwordvault"
             android:versionCode="1"
             android:versionName="1">
 
@@ -9,7 +9,7 @@
                  android:icon="@drawable/vault_launcher"
                  android:theme="@style/AppTheme">
 
-        <activity android:name="com.pwhitman.passwordvault.LoginActivity"
+        <activity android:name="com.javaphil.passwordvault.LoginActivity"
             android:theme="@style/AppTheme.NoTitle">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN"/>
@@ -17,19 +17,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.pwhitman.passwordvault.PasswordListActivity">
+        <activity android:name="com.javaphil.passwordvault.PasswordListActivity">
         </activity>
 
-        <activity android:name="com.pwhitman.passwordvault.PasswordActivity"
+        <activity android:name="com.javaphil.passwordvault.PasswordActivity"
             android:label="@string/app_name">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pwhitman.passwordvault.PasswordListActivity"/>
+                android:value="com.javaphil.passwordvault.PasswordListActivity"/>
         </activity>
 
         <activity
-            android:name="com.pwhitman.passwordvault.PasswordPagerActivity">
+            android:name="com.javaphil.passwordvault.PasswordPagerActivity">
             <meta-data android:name="android.support.PARENT_ACTIVITY"
-                android:value="com.pwhitman.passwordvault.PasswordListActivity"/>
+                android:value="com.javaphil.passwordvault.PasswordListActivity"/>
             </activity>
 
     </application>
